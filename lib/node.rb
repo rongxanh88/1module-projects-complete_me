@@ -1,5 +1,6 @@
+require 'pry'
 class Node
-  attr_accessor :children
+  attr_accessor :children, :node_name
 
   def initialize(node_name="")
     @node_name = node_name
@@ -16,7 +17,7 @@ class Node
     return if letters.size == 0
 
     first_letter = letters[0]
-    children.has_key?(first_letter) ? children[first_letter] = Node.new(first_letter) : #else do nothing
-    children[first_letter].add_letters_recursively(letters[1...letters.length], full_word)
+    !children.has_key?(first_letter) ? children[first_letter] = Node.new(first_letter) : #do nothing
+    children[first_letter].add_letters_recursively(letters[1...letters.size], full_word)
   end
 end
