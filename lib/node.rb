@@ -15,6 +15,7 @@ class Node
   end
   
   def get_suggestions(prefix)
+    @@suggestions.clear
     prefix = prefix.split("").to_a
     get_suggestions_recursively(prefix)
     return @@suggestions
@@ -38,7 +39,12 @@ class Node
   def get_suggestions_recursively(prefix=[])
     if prefix.empty?
       find_all_full_words(children)
+    elsif prefix.size == 1
+      if children[prefix[0]].complete_word != nil
+        @@suggestions << children[prefix[0]].complete_word
+      end
     end
+    
     
     first_letter = prefix.shift
     
@@ -50,7 +56,6 @@ class Node
   end
 
   def find_all_full_words(children={})
-    @@suggestions.clear
     find_recursively(children)
   end
 
