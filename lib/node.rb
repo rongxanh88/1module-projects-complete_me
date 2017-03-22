@@ -1,6 +1,6 @@
 require 'pry'
 class Node
-  attr_accessor :children, :node_name
+  attr_accessor :children, :node_name, :complete_word
 
   def initialize(node_name="")
     @node_name = node_name
@@ -13,7 +13,10 @@ class Node
   end
   
   def add_letters_recursively(letters, full_word)
-    return if letters.size == 0
+    if letters.size == 0
+      complete_word = full_word
+      return
+    end
 
     first_letter = letters.shift
 
@@ -21,7 +24,7 @@ class Node
       children[first_letter] = Node.new(first_letter)
     end
     
-    children[first_letter].add_letters_recursively(letters)
+    children[first_letter].add_letters_recursively(letters, full_word)
   end
 
   def get_suggestions(root_node, prefix)
