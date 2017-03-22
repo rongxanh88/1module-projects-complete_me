@@ -6,13 +6,11 @@ class CompleteMe
 
   def initialize(dictionary=[])
     @root_node = Node.new
-    @word_count = 0
     dictionary.each {|word| insert(word)}
   end
   
   def insert(word)
     root_node.add_word(word)
-    @word_count += 1
   end
   
   def populate(words)
@@ -21,8 +19,7 @@ class CompleteMe
   end
 
   def count
-    @word_count
-    #fix this method, need to do a DFS
+    root_node.count_words
   end
   
   def select

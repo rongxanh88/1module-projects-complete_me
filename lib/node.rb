@@ -3,6 +3,7 @@ class Node
   attr_accessor :children, :node_name, :complete_word
 
   @@suggestions = []
+  @@word_count = 0
 
   def initialize(node_name="")
     @node_name = node_name
@@ -38,7 +39,7 @@ class Node
 
   def get_suggestions_recursively(prefix=[])
     if prefix.empty?
-      find_all_full_words(children)
+      find_complete_words_recursively(children)
     elsif prefix.size == 1
       if children[prefix[0]].complete_word != nil
         @@suggestions << children[prefix[0]].complete_word
@@ -55,23 +56,36 @@ class Node
     end
   end
 
-  def find_all_full_words(children={})
-    find_recursively(children)
-  end
-
   def key_not_present?(letter)
     !children.has_key?(letter)
   end
 
-  def find_recursively(children={})
+  def find_complete_words_recursively(children={})
     children.each do |letter, node|
       if node.complete_word != nil
         @@suggestions << node.complete_word
       end
       
       grandchildren = node.children
-      find_recursively(grandchildren)
+      find_complete_words_recursively(grandchildren)
     end
   end
 
+  def count_words
+    @@count_words = 0
+    count_recursively(children)
+    return @@count_words
+  end
+  
+  def count_recursively(children={})
+    children.each do |letter, node|
+      if node.complete_word != nil
+        @@count_words += 1
+      end
+      
+      grandchildren = node.children
+      count_recursively(grandchildren)
+    end
+  end
+  
 end
