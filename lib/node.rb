@@ -13,12 +13,15 @@ class Node
   end
   
   def add_letters_recursively(letters, full_word)
-    @full_word = full_word
     return if letters.size == 0
 
-    first_letter = letters[0]
-    !children.has_key?(first_letter) ? children[first_letter] = Node.new(first_letter) : #do nothing
-    children[first_letter].add_letters_recursively(letters[1...letters.size], full_word)
+    first_letter = letters.shift
+
+    if !children.has_key?(first_letter)
+      children[first_letter] = Node.new(first_letter)
+    end
+    
+    children[first_letter].add_letters_recursively(letters)
   end
 
   def get_suggestions(root_node, prefix)
