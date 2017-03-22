@@ -27,26 +27,22 @@ class Node
     children[first_letter].add_letters_recursively(letters, full_word)
   end
 
-  def get_suggestions(root_node, prefix)
+  def get_suggestions(prefix)
     prefix = prefix.split("").to_a
-    get_suggestions_recursively(root_node, prefix)
+    get_suggestions_recursively(prefix)
   end
 
-  def get_suggestions_recursively(node, prefix)
-    return if prefix.length == 1 #stops recursion
-
-    first_char = prefix[0]
-    #traverse all the way down
-    
-    if children.has_key?(first_char)
-      child_node = get_child_node(node, first_char)
-      get_suggestions_recursively(child)
+  def get_suggestions_recursively(prefix)
+    if prefix.length == 0 #stops recursion
+      return children
     end
     
-
-  end
-  
-  def get_child_node(node, first_char)
-    #node[:children[first_char]]
+    first_letter = prefix.shift
+    
+    if children.has_key?(first_letter)
+      children[first_letter].get_suggestions_recursively(prefix)
+    else
+      return ["No Suggestions"]
+    end
   end
 end
