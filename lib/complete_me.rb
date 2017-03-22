@@ -1,6 +1,8 @@
 require_relative 'node'
+require 'pry'
 
 class CompleteMe
+  attr_reader :root_node
 
   def initialize(dictionary=[])
     @root_node = Node.new
@@ -9,7 +11,7 @@ class CompleteMe
   end
   
   def insert(word)
-    @root_node.add_words(word)
+    root_node.add_words(word)
     @word_count += 1
   end
   
@@ -20,6 +22,7 @@ class CompleteMe
 
   def count
     @word_count
+    #fix this method, need to do a DFS
   end
   
   def select
@@ -27,8 +30,8 @@ class CompleteMe
   end
   
   def suggest(prefix)
-    suggestions = @root_node.get_suggestions(@root_node, prefix)
+    #suggestions = root_node.get_suggestions(root_node, prefix)
   end
   
-  
+  binding.pry
 end
