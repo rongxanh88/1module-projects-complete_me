@@ -12,30 +12,33 @@ class Node
     add_letters_recursively(letters, word)
   end
   
-  def add_letters_recursively(letters, full_word)
-    if letters.size == 0
+  def get_suggestions(prefix)
+    prefix = prefix.split("").to_a
+    get_suggestions_recursively(prefix)
+  end
+
+  private
+
+  def add_letters_recursively(letters = [], full_word)
+    if letters.empty?
       @complete_word = full_word
       return
     end
 
     first_letter = letters.shift
 
-    if !children.has_key?(first_letter)
+    if key_not_present?(first_letter)
       children[first_letter] = Node.new(first_letter)
     end
     
     children[first_letter].add_letters_recursively(letters, full_word)
   end
 
-  def get_suggestions(prefix)
-    prefix = prefix.split("").to_a
-    get_suggestions_recursively(prefix)
-  end
-
   def get_suggestions_recursively(prefix)
-    if prefix.length == 0 #stops recursion
-      return children # from here we need to recurse through everthing
-      #and find all full words
+    if prefix.length == 0
+      puts "#{children}"
+      find_all_full_words(children) #passes in hash object
+      return
     end
     
     first_letter = prefix.shift
@@ -46,4 +49,27 @@ class Node
       return ["No Suggestions"]
     end
   end
+
+  def find_all_full_words(children)
+    #get hash here. iterate over hash
+    words = []
+    words << find_recursively(children)
+  end
+
+  def key_not_present?(letter)
+    !children.has_key?(letter)
+  end
+
+  def find_recursively(children)
+    #children is hash, full of keys, where values are nodes
+    #stop recursion if hash has one key
+    if children.size == 1
+      child_node = children.values[0]
+      word = child_node.complete_word
+      puts "#{word}"
+      return
+    end
+    
+  end
+
 end
