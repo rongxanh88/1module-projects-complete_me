@@ -17,9 +17,9 @@ class Node
     get_suggestions_recursively(prefix)
   end
 
-  private
+  #private
 
-  def add_letters_recursively(letters = [], full_word)
+  def add_letters_recursively(letters=[], full_word)
     if letters.empty?
       @complete_word = full_word
       return
@@ -34,8 +34,8 @@ class Node
     children[first_letter].add_letters_recursively(letters, full_word)
   end
 
-  def get_suggestions_recursively(prefix)
-    if prefix.length == 0
+  def get_suggestions_recursively(prefix=[])
+    if prefix.empty?
       puts "#{children}"
       find_all_full_words(children) #passes in hash object
       return
