@@ -20,4 +20,15 @@ class Node
     !children.has_key?(first_letter) ? children[first_letter] = Node.new(first_letter) : #do nothing
     children[first_letter].add_letters_recursively(letters[1...letters.size], full_word)
   end
+
+  def get_suggestions(prefix)
+    prefix = prefix.split("").to_a
+    get_suggestions_recursively(prefix)
+  end
+
+  def get_suggestions_recursively(prefix)
+    
+  end
+  
+  
 end
