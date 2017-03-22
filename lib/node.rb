@@ -2,6 +2,8 @@ require 'pry'
 class Node
   attr_accessor :children, :node_name, :complete_word
 
+  @@suggestions = []
+
   def initialize(node_name="")
     @node_name = node_name
     @children = Hash.new
@@ -15,9 +17,8 @@ class Node
   def get_suggestions(prefix)
     prefix = prefix.split("").to_a
     get_suggestions_recursively(prefix)
+    return @@suggestions
   end
-
-  #private
 
   def add_letters_recursively(letters=[], full_word)
     if letters.empty?
@@ -36,9 +37,7 @@ class Node
 
   def get_suggestions_recursively(prefix=[])
     if prefix.empty?
-      puts "#{children}"
-      find_all_full_words(children) #passes in hash object
-      return
+      find_all_full_words(children)
     end
     
     first_letter = prefix.shift
@@ -50,26 +49,24 @@ class Node
     end
   end
 
-  def find_all_full_words(children)
-    #get hash here. iterate over hash
-    words = []
-    words << find_recursively(children)
+  def find_all_full_words(children={})
+    @@suggestions.clear
+    find_recursively(children)
   end
 
   def key_not_present?(letter)
     !children.has_key?(letter)
   end
 
-  def find_recursively(children)
-    #children is hash, full of keys, where values are nodes
-    #stop recursion if hash has one key
-    if children.size == 1
-      child_node = children.values[0]
-      word = child_node.complete_word
-      puts "#{word}"
-      return
+  def find_recursively(children={})
+    children.each do |letter, node|
+      if node.complete_word != nil
+        @@suggestions << node.complete_word
+      end
+      
+      grandchildren = node.children
+      find_recursively(grandchildren)
     end
-    
   end
 
 end

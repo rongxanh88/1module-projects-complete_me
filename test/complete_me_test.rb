@@ -29,7 +29,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggests_off_of_small_dataset
-    skip
     insert_words(["pizza", "aardvark", "zombies", "a", "xylophones"])
     assert_equal ["pizza"], cm.suggest("p")
     assert_equal ["pizza"], cm.suggest("piz")
@@ -39,13 +38,11 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_inserts_medium_dataset
-    skip
     cm.populate(medium_word_list)
     assert_equal medium_word_list.split("\n").count, cm.count
   end
 
   def test_suggests_off_of_medium_dataset
-    skip
     cm.populate(medium_word_list)
     assert_equal ["williwaw", "wizardly"], cm.suggest("wi").sort
   end
@@ -69,7 +66,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def medium_word_list
-    skip
     File.read("./test/medium.txt")
   end
 
