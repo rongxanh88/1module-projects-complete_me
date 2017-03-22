@@ -11,7 +11,7 @@ class CompleteMe
   end
   
   def insert(word)
-    root_node.add_words(word)
+    root_node.add_word(word)
     @word_count += 1
   end
   

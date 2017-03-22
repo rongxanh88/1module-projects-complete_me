@@ -7,14 +7,14 @@ class Node
     @children = Hash.new
   end
   
-  def add_words(word)
+  def add_word(word)
     letters = word.split("").to_a
     add_letters_recursively(letters, word)
   end
   
   def add_letters_recursively(letters, full_word)
     if letters.size == 0
-      complete_word = full_word
+      @complete_word = full_word
       return
     end
 
@@ -34,7 +34,8 @@ class Node
 
   def get_suggestions_recursively(prefix)
     if prefix.length == 0 #stops recursion
-      return children
+      return children # from here we need to recurse through everthing
+      #and find all full words
     end
     
     first_letter = prefix.shift
