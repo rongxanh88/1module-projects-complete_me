@@ -138,9 +138,10 @@ class Node
         -1
       elsif @@weight.has_key?(word2)
         1
+      else
+        word1 <=> word2
       end
     end
-    return @@suggestions
   end
   
   
