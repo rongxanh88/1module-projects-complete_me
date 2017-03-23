@@ -1,5 +1,4 @@
 require_relative 'node'
-require 'pry'
 
 class CompleteMe
   attr_reader :root_node
@@ -33,5 +32,4 @@ class CompleteMe
   def delete(word)
     root_node.delete(word)
   end
-  binding.pry
 end

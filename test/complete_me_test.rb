@@ -5,7 +5,6 @@ SimpleCov.start
 require "minitest"
 require "minitest/autorun"
 require "./lib/complete_me"
-require 'pry'
 
 class CompleteMeTest < Minitest::Test
   attr_reader :cm

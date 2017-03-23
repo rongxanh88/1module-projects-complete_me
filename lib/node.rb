@@ -1,4 +1,3 @@
-require 'pry'
 class Node
   attr_accessor :children, :node_name, :complete_word
 
@@ -43,9 +42,7 @@ class Node
     if prefix.empty?
       find_complete_words_recursively(children)
     elsif prefix.size == 1
-      if children[prefix[0]].complete_word != nil
-        @@suggestions << children[prefix[0]].complete_word
-      end
+      add_word_if_one_letter_complete_word(children, prefix)
     end
 
     first_letter = prefix.shift
@@ -55,10 +52,6 @@ class Node
     else
       return ["No Suggestions"]
     end
-  end
-
-  def key_not_present?(letter)
-    !children.has_key?(letter)
   end
 
   def find_complete_words_recursively(children={})
@@ -179,15 +172,14 @@ class Node
     end
   end
 
-  def traverse_down_trie(letters=[], full_word)
-    first_letter = letters.shift
-    
-    if children.has_key?(first_letter)
-      children[first_letter].traverse_down_trie(letters, full_word)
-    else
-      return ["Error with word entered."]
+  def key_not_present?(letter)
+    !children.has_key?(letter)
+  end
+
+  def add_word_if_one_letter_complete_word(children, prefix)
+    if children[prefix[0]].complete_word != nil
+        @@suggestions << children[prefix[0]].complete_word
     end
   end
-  
   
 end
