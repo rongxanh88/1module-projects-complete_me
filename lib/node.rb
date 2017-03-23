@@ -168,11 +168,26 @@ class Node
     children.each do |letter, node|
       if node.complete_word == full_word
         node.complete_word = nil
+        if node.children.empty?
+          #traverse back up trie and delete nodes
+        end
+        return
       end
 
       grandchildren = node.children
       delete_word(grandchildren, full_word)
     end
   end
+
+  def traverse_down_trie(letters=[], full_word)
+    first_letter = letters.shift
+    
+    if children.has_key?(first_letter)
+      children[first_letter].traverse_down_trie(letters, full_word)
+    else
+      return ["Error with word entered."]
+    end
+  end
+  
   
 end
