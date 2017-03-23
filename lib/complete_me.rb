@@ -29,4 +29,9 @@ class CompleteMe
   def suggest(prefix)
     suggestions = root_node.get_suggestions(prefix)
   end
+
+  def delete(word)
+    root_node.delete(word)
+  end
+  binding.pry
 end

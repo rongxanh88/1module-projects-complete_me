@@ -15,14 +15,6 @@ class Node
     letters = word.split("").to_a
     add_letters_recursively(letters, word)
   end
-  
-  def get_suggestions(prefix)
-    @@suggestions.clear
-    prefix = prefix.split("").to_a
-    get_suggestions_recursively(prefix)
-    sort_suggestions
-    return @@suggestions
-  end
 
   def add_letters_recursively(letters=[], full_word)
     if letters.empty?
@@ -37,6 +29,14 @@ class Node
     end
     
     children[first_letter].add_letters_recursively(letters, full_word)
+  end
+  
+  def get_suggestions(prefix)
+    @@suggestions.clear
+    prefix = prefix.split("").to_a
+    get_suggestions_recursively(prefix)
+    sort_suggestions
+    return @@suggestions
   end
 
   def get_suggestions_recursively(prefix=[])
@@ -144,5 +144,35 @@ class Node
     end
   end
   
+  def delete(word="")
+    letters = word.split("").to_a
+    delete_recursively(letters, word)
+  end
+  
+  def delete_recursively(letters=[], full_word)
+    if letters.size == 1
+      delete_word(children, full_word)
+      return
+    end
+
+    first_letter = letters.shift
+    
+    if children.has_key?(first_letter)
+      children[first_letter].delete_recursively(letters, full_word)
+    else
+      return ["Word entered incorrectly"]
+    end
+  end
+  
+  def delete_word(children={}, full_word)
+    children.each do |letter, node|
+      if node.complete_word == full_word
+        node.complete_word = nil
+      end
+
+      grandchildren = node.children
+      delete_word(grandchildren, full_word)
+    end
+  end
   
 end

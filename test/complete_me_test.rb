@@ -1,3 +1,7 @@
+require 'simplecov'
+
+SimpleCov.start
+
 require "minitest"
 require "minitest/autorun"
 require "./lib/complete_me"
@@ -71,4 +75,13 @@ class CompleteMeTest < Minitest::Test
   def large_word_list
     File.read("/usr/share/dict/words")
   end
+
+  def test_delete_word
+    cm.populate(medium_word_list)
+    first_count = cm.count
+    cm.delete("wizardly")
+    second_count = cm.count
+    assert ((first_count - second_count) == 1)
+  end
+  
 end
