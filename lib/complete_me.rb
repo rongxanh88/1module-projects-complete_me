@@ -22,11 +22,12 @@ class CompleteMe
     root_node.count_words
   end
   
-  def select
-    #select picks a suggestion based on previous selections
+  def select(prefix, word)
+    root_node.add_weight_to_suggestion(prefix, word)
   end
   
   def suggest(prefix)
     suggestions = root_node.get_suggestions(prefix)
   end
+  binding.pry
 end

@@ -4,6 +4,7 @@ class Node
 
   @@suggestions = []
   @@word_count = 0
+  @@weight = Hash.new
 
   def initialize(node_name="")
     @node_name = node_name
@@ -19,6 +20,7 @@ class Node
     @@suggestions.clear
     prefix = prefix.split("").to_a
     get_suggestions_recursively(prefix)
+    sort_suggestions
     return @@suggestions
   end
 
@@ -45,8 +47,7 @@ class Node
         @@suggestions << children[prefix[0]].complete_word
       end
     end
-    
-    
+
     first_letter = prefix.shift
     
     if children.has_key?(first_letter)
@@ -87,5 +88,47 @@ class Node
       count_recursively(grandchildren)
     end
   end
+
+  def add_weight_to_suggestion(prefix, word)
+    prefix = prefix.split("").to_a
+    select_recursively(prefix, word)
+  end
+  
+  def select_recursively(prefix=[], word)
+    if prefix.empty?
+      mark_selected_word(children, word)
+      return
+    end
+
+    first_letter = prefix.shift
+    
+    if children.has_key?(first_letter)
+      children[first_letter].select_recursively(prefix, word)
+    else
+      return ["Prefix entered incorrectly."]
+    end
+  end
+
+  def mark_selected_word(children={}, word)
+    #puts "#{children}"
+    children.each do |letter, node|
+      if node.complete_word == word
+        if @@weight[word] == 1
+          @@weight[word] += 1
+        else
+          @@weight[word] = 1
+        end
+        return
+      end
+      
+      grandchildren = node.children
+      mark_selected_word(grandchildren, word)
+    end
+  end
+
+  def sort_suggestions
+
+  end
+  
   
 end
