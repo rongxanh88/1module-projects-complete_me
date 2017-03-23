@@ -127,7 +127,20 @@ class Node
   end
 
   def sort_suggestions
-
+    @@suggestions.sort! do |word1, word2|
+      if @@weight.has_key?(word1) and @@weight.has_key?(word2)
+        if @@weight[word1] > @@weight[word2]
+          -1
+        else
+          1
+        end
+      elsif @@weight.has_key?(word1)
+        -1
+      elsif @@weight.has_key?(word2)
+        1
+      end
+    end
+    return @@suggestions
   end
   
   

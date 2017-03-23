@@ -29,5 +29,4 @@ class CompleteMe
   def suggest(prefix)
     suggestions = root_node.get_suggestions(prefix)
   end
-  binding.pry
 end
